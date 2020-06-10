@@ -70,7 +70,7 @@ function getAccessToken() {
     const code = searchParams.get('code');
 
     if (!code) {
-      window.location.href = 'https://secure.meetup.com/oauth2/authorize?client_id=i67qnj61hami3bb3q1c50vkai2&response_type=code&redirect_uri=https://dmrapuano1.github.io/meetup/';
+      window.location.href = 'https://secure.meetup.com/oauth2/authorize?client_id=i67qnj61hami3bb3q1c50vkai2&response_type=code&redirect_uri=https://dmrapuano1.github.io/meetup_application/';
       return null;
     }
     return getOrRenewAccessToken('get', code);
