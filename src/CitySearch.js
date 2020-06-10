@@ -15,7 +15,11 @@ class CitySearch extends Component {
     getSuggestions(value).then(suggestions => {
       this.setState({ suggestions });
 
-      if (value && suggestions.length === 0) {
+      if (value && value.length === 1){
+        this.setState({
+          infoText: 'Search must have at least 2 characters'
+        })
+      } else if (value && suggestions.length === 0) {
         this.setState({
           infoText: 'No city was found that matched your search. Please try again.',
         });
