@@ -45,13 +45,11 @@ async function getEvents(lat, lon, num) {
     } else return unmountedMockEvents.events
   }
 
-  if (!navigator.onLine) {
-    localStorage.setItem('offline', true)
+  const offline = await checkStatus()
+  if (offline) {
     const events = localStorage.getItem('lastEvents');
     return JSON.parse(events);
-  } else {
-    localStorage.setItem('offline', false)
-  }
+  } 
 
   const token = await getAccessToken();
   if (token) {
@@ -73,6 +71,14 @@ async function getEvents(lat, lon, num) {
     return events;
   }
 
+}
+
+function checkStatus() {
+  if(!navigator.onLine) {
+    return true
+  } else {
+    return false
+  }
 }
 
 function getAccessToken() {
@@ -123,4 +129,4 @@ async function getOrRenewAccessToken(type, key) {
   return tokenInfo.data.access_token;
 }
 
-export { getSuggestions, getEvents };
+export { getSuggestions, getEvents, checkStatus };
