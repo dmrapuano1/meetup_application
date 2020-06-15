@@ -50,7 +50,7 @@ class App extends Component {
       }
   }
 
-  countEventsOnADate = (date) => {
+  countEvents = (date) => {
     let count = 0;
     for (let i = 0; i < this.state.events.length; i += 1) {
       if (this.state.events[i].local_date === date) {
@@ -61,15 +61,16 @@ class App extends Component {
   }
 
   getData = () => {
-    const next7Days = []; // Create empty array for the next 7 days
-    const currentDate = moment(); // Today
-    // Loop 7 times for next 7 days
+    const next7Days = [];
+    const currentDate = moment();
+    // for loop to give next 7 days
     for (let i = 0; i < 7; i += 1) {
-      currentDate.add(1, 'days'); // Add 1 day to current date, currentDate changes
-      const dateString = currentDate.format('YYYY-MM-DD'); // Format the date
-      // Use the countEventsOnADate function to count #events on this date
-      const count = this.countEventsOnADate(dateString);
-      next7Days.push({ date: dateString, number: count }); // Add this date and number to the list
+      // Add 1 day to current day, changing current day to +1
+      currentDate.add(1, 'days'); 
+      const dateString = currentDate.format('YYYY-MM-DD');
+      // Uses countEvents to give other axis for table
+      const count = this.countEvents(dateString);
+      next7Days.push({ date: dateString, number: count });
     }
     return next7Days;
   }

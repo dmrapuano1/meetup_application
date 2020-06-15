@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { PieChart, Pie, Tooltip } from 'recharts';
+
 
 class Event extends Component {
 
@@ -22,10 +24,32 @@ class Event extends Component {
 
     let {extend} = this.state
     let {event} = this.props
+
     let description = event.description
     description = description.replace(/<[^>]+>/g, '');
+    
+    let data = [
+      { name: 'Availability', value: (event.rsvp_limit - event.yes_rsvp_count) },
+      { name: 'RSVP Yes', value: (event.yes_rsvp_count) }
+    ];
 
-    if (extend === false) {
+    if (extend === false && event.rsvp_limit) {
+      return (
+        <div className="event" key={event.id}>
+          <div className="dateAndTime">{event.local_time} - {event.local_date}</div>
+          <div className="eventName">{event.name}</div>
+          <div className="groupName">Group: {event.group.name}</div>
+          <div className="peopleGoing">{event.yes_rsvp_count} people are going</div>
+          <PieChart width={150} height={75}>
+            <Pie dataKey="value" isAnimationActive={false} data={data} outerRadius={32} fill='#0000FF' label />
+            <Tooltip />
+          </PieChart>
+          <button className="detailsBtn" onClick={ () => this.findDetails() }>Details</button>
+        </div>
+      )
+    }
+
+    if (extend === false && !event.rsvp_limit) {  
       return (
         <div className="event" key={event.id}>
           <div className="dateAndTime">{event.local_time} - {event.local_date}</div>
@@ -34,7 +58,7 @@ class Event extends Component {
           <div className="peopleGoing">{event.yes_rsvp_count} people are going</div>
           <button className="detailsBtn" onClick={ () => this.findDetails() }>Details</button>
         </div>
-      )
+      )    
     }
     
     if (extend === true && event.venue !== undefined) {

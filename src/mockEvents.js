@@ -181,6 +181,7 @@ const unmountedMockEvents = {
       updated: 1586174006000,
       utc_offset: 7200000,
       waitlist_count: 0,
+      rsvp_limit: 100,
       yes_rsvp_count: 13,
       is_online_event: false,
       group: {
