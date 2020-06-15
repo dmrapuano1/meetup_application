@@ -22,6 +22,8 @@ class Event extends Component {
 
     let {extend} = this.state
     let {event} = this.props
+    let description = event.description
+    description = description.replace(/<[^>]+>/g, '');
 
     if (extend === false) {
       return (
@@ -34,6 +36,7 @@ class Event extends Component {
         </div>
       )
     }
+    
     if (extend === true && event.venue !== undefined) {
       return (
         <div className="event" key={event.id}>
@@ -42,7 +45,7 @@ class Event extends Component {
           <div className="groupName">Group: {event.group.name}</div>
           <div className="peopleGoing">{event.yes_rsvp_count} people are going</div>
           <div className="address">{event.venue.address_1}, {event.venue.city}, {event.venue.state} {event.venue.zip}</div>
-          <div className="description">{event.description}</div>
+          <div className="description">{description}</div>
           <div className="visibility">{event.visibility}</div>
           <div><a className="link" href={event.link} target="_blank" rel="noopener noreferrer">Event link</a></div>
           <button className="closeBtn" onClick={ () => this.hideDetails() }>Close</button>
@@ -55,7 +58,7 @@ class Event extends Component {
           <div className="eventName">{event.name}</div>
           <div className="groupName">Group: {event.group.name}</div>
           <div className="peopleGoing">{event.yes_rsvp_count} people are going</div>
-          <div className="description">{event.description}</div>
+          <div className="description">{description}</div>
           <div className="visibility">{event.visibility}</div>
           <div><a className="link" href={event.link} target="_blank" rel="noopener noreferrer">Event link</a></div>
           <button className="closeBtn" onClick={ () => this.hideDetails() }>Close</button>
