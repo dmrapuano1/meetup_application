@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getSuggestions} from './api';
+import {getSuggestions, checkStatus} from './api';
 import {InfoAlert} from './Alert';
 
 class CitySearch extends Component {
@@ -10,25 +10,31 @@ class CitySearch extends Component {
   }
 
   handleInputChanged = (event) => {
+
     const value = event.target.value;
     this.setState({ query: value });
-    getSuggestions(value).then(suggestions => {
-      this.setState({ suggestions });
+      
+    let offline = checkStatus();
+    this.props.changeCautionText(offline);
 
-      if (value && value.length === 1){
-        this.setState({
-          infoText: 'Search must have at least 2 characters'
-        })
-      } else if (value && suggestions.length === 0) {
-        this.setState({
-          infoText: 'No city was found that matched your search. Please try again.',
-        });
-      } else {
-        this.setState({
-          infoText: '',
-        });
-      }
-    });
+    if (!offline) {
+      getSuggestions(value).then(suggestions => {
+        this.setState({ suggestions });
+        if (value && value.length === 1){
+          this.setState({
+            infoText: 'Search must have at least 2 characters'
+          })
+        } else if (value && suggestions.length === 0) {
+          this.setState({
+            infoText: 'No city was found that matched your search. Please try again.',
+          });
+        } else {
+          this.setState({
+            infoText: '',
+          });
+        }
+      });
+    }
   }
 
   handleItemClicked = (value, lat, lon) => {

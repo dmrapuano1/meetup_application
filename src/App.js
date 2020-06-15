@@ -33,6 +33,12 @@ class App extends Component {
   componentDidUpdate () {
     let offline = checkStatus();
     if (offline !== this.state.lastCheck) {
+      this.changeCautionText(offline);
+      this.setState ({lastCheck: offline})
+    }
+  }
+
+  changeCautionText(offline) {
       if (offline) {
         this.setState({
           cautionText: 'WARNING: App is running offline. Events will not update until you connect to the internet.'
@@ -40,15 +46,14 @@ class App extends Component {
       } else {
         this.setState({ cautionText: '' })
       }
-      this.setState ({lastCheck: offline})
     }
-  }
 
   render () {
+    console.log(this.state.cautionText)
     return (
       <div className="App">
-        <CitySearch updateEvents={this.updateEvents} />
-        <NumberOfEvents updateCount={this.updateCount}/>
+        <CitySearch updateEvents={this.updateEvents} changeCautionText={offline => this.changeCautionText(offline)}/>
+        <NumberOfEvents updateCount={this.updateCount} changeCautionText={offline => this.changeCautionText(offline)}/>
         <CautionAlert text={this.state.cautionText} />
         <EventList events={this.state.events} />
       </div>

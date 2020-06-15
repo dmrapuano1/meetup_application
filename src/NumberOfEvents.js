@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ErrorAlert } from './Alert';
+import {checkStatus} from './api'
 
 class NumberOfEvents extends Component {
 
@@ -8,6 +9,10 @@ class NumberOfEvents extends Component {
   }
 
   handleInputChanged = (event) => {
+    
+    let offline = checkStatus();
+    this.props.changeCautionText(offline);
+
     const value = event.target.value;
     this.setState({ eventNumber: value });
 
