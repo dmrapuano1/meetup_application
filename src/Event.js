@@ -26,7 +26,9 @@ class Event extends Component {
     let {event} = this.props
 
     let description = event.description
-    description = description.replace(/<[^>]+>/g, '');
+    if (description) {
+      description = description.replace(/<[^>]+>/g, '');
+    } else description = 'Event has no description'
     
     let data = [
       { name: 'Availability', value: (event.rsvp_limit - event.yes_rsvp_count) },
